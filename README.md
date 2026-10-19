@@ -27,7 +27,6 @@ directly and do not depend on the repository's Compose files.
 
   ```powershell
   if (!(Test-Path .env)) { Copy-Item .env.example .env }
-  npm install
   ```
 
   In `.env`, set `DATABASE_URL` to
@@ -38,9 +37,14 @@ directly and do not depend on the repository's Compose files.
   ```powershell
   node -p "require('node:crypto').randomBytes(32).toString('base64')"
   ```
-
+  
   Put the generated value in `NEXTAUTH_SECRET`. Keep any existing `.env` and
   update these values rather than overwriting it.
+
+  Finally, install the dependencies:
+  ```powershell
+  npm install
+  ```
 
 3. Create the app database. For a native PostgreSQL install, open a new
   terminal and run these commands, entering the `postgres` superuser password
