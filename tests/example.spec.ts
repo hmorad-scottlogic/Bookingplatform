@@ -30,4 +30,17 @@ test.only('check sign in', async ({ page }) => {
     await expect(page.getByText('Lakeview Bowls Club', {exact:true}));
 });
 
+test.only('check booking', async ({ page }) => {
+    await page.goto('http://localhost:3000/');
+    await page.getByRole('link', {name: 'Sign in'}).click();
+    await page.getByRole('textbox', {name: 'email'}).fill('hameed@bowls.com');
+    await page.getByRole('textbox', {name: 'password'}).fill('hameed');
+    await page.getByRole('button', {name: 'Sign In'}).click();
+    await page.waitForTimeout(2000);
+    await page.getByRole('link', {name: 'Book Now'}).click();
+    await page.getByLabel('Book Rink 7 at 17:00').click();
+    await page.getByRole('button', {name: 'Request Booking'}).click();
 
+    await expect(page.getByText('Booking requested for you successfully!', {exact:true}));
+
+});
