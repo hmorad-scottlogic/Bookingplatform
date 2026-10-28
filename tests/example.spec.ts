@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { LoginPage } from './bowls-helper-page';
 
 test('has title', async ({ page }) => {
   await page.goto('http://localhost:3000/');
@@ -19,24 +20,20 @@ test('check Register page', async ({ page }) => {
 
 });
 
-test.only('check sign in', async ({ page }) => {
-    await page.goto('http://localhost:3000/');
-    await page.getByRole('link', {name: 'Sign in'}).click();
-    await page.getByRole('textbox', {name: 'email'}).fill('hameed@bowls.com');
-    await page.getByRole('textbox', {name: 'password'}).fill('hameed');
-    await page.getByRole('button', {name: 'Sign In'}).click();
+test('check sign in', async ({ page }) => {
+  const loginPage = new LoginPage(page);
+    await loginPage.goto();
+    await loginPage.signIn('hameed@bowls.com', 'hameed');
 
     await expect(page).toHaveURL('http://localhost:3000/dashboard');
     await expect(page.getByText('Lakeview Bowls Club', {exact:true}));
 });
 
-test.only('check booking', async ({ page }) => {
-    await page.goto('http://localhost:3000/');
-    await page.getByRole('link', {name: 'Sign in'}).click();
-    await page.getByRole('textbox', {name: 'email'}).fill('hameed@bowls.com');
-    await page.getByRole('textbox', {name: 'password'}).fill('hameed');
-    await page.getByRole('button', {name: 'Sign In'}).click();
-    await page.waitForTimeout(2000);
+test('check booking', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.goto();
+    await loginPage.signIn('hameed@bowls.com', 'hameed');
+    
     await page.getByRole('link', {name: 'Book Now'}).click();
     await page.getByLabel('Book Rink 7 at 17:00').click();
     await page.getByRole('button', {name: 'Request Booking'}).click();
